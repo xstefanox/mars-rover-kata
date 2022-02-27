@@ -1,8 +1,10 @@
 package io.github.xstefanox.marsrover
 
-class MarsRover(x: Int = 0, y: Int = 0, direction: Char = 'N') {
+import io.github.xstefanox.marsrover.Direction.N
+
+class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = N) {
 
     val position = Position(x, y)
 
-    val direction: Char = direction
+    val direction: Direction = direction
 }

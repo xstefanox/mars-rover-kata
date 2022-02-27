@@ -1,5 +1,7 @@
 package io.github.xstefanox.marsrover
 
+import io.github.xstefanox.marsrover.Direction.N
+import io.github.xstefanox.marsrover.Direction.S
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -16,7 +18,7 @@ internal class MarsRoverTest {
     fun `default initial direction`() {
         val marsRover = MarsRover()
 
-        marsRover.direction shouldBe 'N'
+        marsRover.direction shouldBe N
     }
 
     @Test
@@ -28,8 +30,8 @@ internal class MarsRoverTest {
 
     @Test
     fun `given initial direction`() {
-        val marsRover = MarsRover(direction = 'S')
+        val marsRover = MarsRover(direction = S)
 
-        marsRover.direction shouldBe 'S'
+        marsRover.direction shouldBe S
     }
 }
