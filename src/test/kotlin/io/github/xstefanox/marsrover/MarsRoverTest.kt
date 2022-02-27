@@ -1,9 +1,10 @@
 package io.github.xstefanox.marsrover
 
 import io.github.xstefanox.marsrover.Direction.N
-import io.github.xstefanox.marsrover.Direction.S
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 internal class MarsRoverTest {
 
@@ -28,10 +29,11 @@ internal class MarsRoverTest {
         marsRover.position shouldBe Position(1, 2)
     }
 
-    @Test
-    fun `given initial direction`() {
-        val marsRover = MarsRover(direction = S)
+    @ParameterizedTest
+    @EnumSource(Direction::class)
+    fun `given initial direction`(initialDirection: Direction) {
+        val marsRover = MarsRover(direction = initialDirection)
 
-        marsRover.direction shouldBe S
+        marsRover.direction shouldBe initialDirection
     }
 }

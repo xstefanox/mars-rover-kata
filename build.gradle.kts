@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation(platform(libs.junit5.bom))
+    testImplementation(libs.junit5.params)
     testImplementation(libs.kotest)
 }
 

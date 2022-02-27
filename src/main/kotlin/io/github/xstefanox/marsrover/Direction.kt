@@ -1,5 +1,5 @@
 package io.github.xstefanox.marsrover
 
 enum class Direction {
-    N, S
+    N, S, W, E
 }
