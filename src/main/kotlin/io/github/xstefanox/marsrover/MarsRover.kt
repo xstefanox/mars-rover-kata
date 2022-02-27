@@ -6,8 +6,12 @@ import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
 import io.github.xstefanox.marsrover.Movement.Backwards
 import io.github.xstefanox.marsrover.Movement.Forward
+import org.slf4j.LoggerFactory
+import java.lang.invoke.MethodHandles
 
 class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = North) {
+
+    private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
     var position: Position = Position(x, y)
         private set(value) {
@@ -15,8 +19,9 @@ class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = North) {
             field = value
         }
 
-    fun move(forward: Movement) {
-        when (forward) {
+    fun move(movement: Movement) {
+        log.debug("moving ${movement::class.simpleName}")
+        when (movement) {
             Backwards -> moveBackwards()
             Forward -> moveForward()
         }

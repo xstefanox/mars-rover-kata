@@ -13,14 +13,18 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.slf4j.api)
     testImplementation(kotlin("test"))
     testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.junit5.params)
     testImplementation(libs.kotest)
+    testRuntimeOnly(libs.slf4j.simple)
+    testRuntimeOnly(libs.slf4j.bridge)
 }
 
 tasks.test {
     useJUnitPlatform()
+    systemProperty("java.util.logging.config.file", "logging.properties")
 }
 
 tasks.withType<KotlinCompile> {
