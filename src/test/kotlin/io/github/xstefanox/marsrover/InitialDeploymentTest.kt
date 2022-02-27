@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
-internal class MarsRoverTest {
+internal class InitialDeploymentTest {
 
     @Test
     fun `default initial position`() {
