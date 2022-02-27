@@ -9,14 +9,11 @@ class Console(private val marsRover: MarsRover) {
 
     fun execute(commands: String): Any {
         val roverCommands = mutableListOf<Command>()
-        if (commands.first() == 'F') {
-            roverCommands += Forward
-        } else if (commands.first() == 'B') {
-            roverCommands += Backwards
-        } else if (commands.first() == 'R') {
-            roverCommands += Right
-        } else if (commands.first() == 'L') {
-            roverCommands += Left
+        when (commands.first()) {
+            'F' -> roverCommands += Forward
+            'B' -> roverCommands += Backwards
+            'R' -> roverCommands += Right
+            'L' -> roverCommands += Left
         }
         marsRover.execute(*roverCommands.toTypedArray())
 
