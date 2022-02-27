@@ -1,10 +1,12 @@
 package io.github.xstefanox.marsrover
 
+import io.github.xstefanox.marsrover.Command.Movement
+import io.github.xstefanox.marsrover.Command.Movement.Backwards
+import io.github.xstefanox.marsrover.Command.Movement.Forward
+import io.github.xstefanox.marsrover.Command.Rotation
+import io.github.xstefanox.marsrover.Command.Rotation.Left
+import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Direction.North
-import io.github.xstefanox.marsrover.Movement.Backwards
-import io.github.xstefanox.marsrover.Movement.Forward
-import io.github.xstefanox.marsrover.Rotation.Left
-import io.github.xstefanox.marsrover.Rotation.Right
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -20,7 +22,7 @@ class MultipleCommandTest {
     fun `empty list of commands`() {
         val marsRover = MarsRover(0, 0, North)
 
-        marsRover.execute(*emptyArray<Movement>())
+        marsRover.execute()
 
         assertSoftly(marsRover) {
             position shouldBe Position(0, 0)

@@ -1,11 +1,11 @@
 package io.github.xstefanox.marsrover
 
+import io.github.xstefanox.marsrover.Command.Rotation.Left
+import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Direction.East
 import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
-import io.github.xstefanox.marsrover.Rotation.Left
-import io.github.xstefanox.marsrover.Rotation.Right
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments

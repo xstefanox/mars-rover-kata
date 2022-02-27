@@ -1,13 +1,15 @@
 package io.github.xstefanox.marsrover
 
+import io.github.xstefanox.marsrover.Command.Movement
+import io.github.xstefanox.marsrover.Command.Movement.Backwards
+import io.github.xstefanox.marsrover.Command.Movement.Forward
+import io.github.xstefanox.marsrover.Command.Rotation
+import io.github.xstefanox.marsrover.Command.Rotation.Left
+import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Direction.East
 import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
-import io.github.xstefanox.marsrover.Movement.Backwards
-import io.github.xstefanox.marsrover.Movement.Forward
-import io.github.xstefanox.marsrover.Rotation.Left
-import io.github.xstefanox.marsrover.Rotation.Right
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
@@ -76,18 +78,11 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
         }
     }
 
-    fun execute(vararg movements: Movement) {
-        if (movements.isNotEmpty()) {
-            when (movements.first()) {
+    fun execute(vararg commands: Command) {
+        if (commands.isNotEmpty()) {
+            when (commands.first()) {
                 Backwards -> moveBackwards()
                 Forward -> moveForward()
-            }
-        }
-    }
-
-    fun execute(vararg rotations: Rotation) {
-        if (rotations.isNotEmpty()) {
-            when (rotations.first()) {
                 Left -> rotateLeft()
                 Right -> rotateRight()
             }
