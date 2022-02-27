@@ -1,6 +1,11 @@
 package io.github.xstefanox.marsrover
 
-import io.github.xstefanox.marsrover.Direction.*
+import io.github.xstefanox.marsrover.Direction.East
+import io.github.xstefanox.marsrover.Direction.North
+import io.github.xstefanox.marsrover.Direction.South
+import io.github.xstefanox.marsrover.Direction.West
+import io.github.xstefanox.marsrover.Rotation.Left
+import io.github.xstefanox.marsrover.Rotation.Right
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -14,7 +19,7 @@ class RotationTest {
     fun `right rotation`(initialDirection: Direction, expectedDirection: Direction) {
         val marsRover = MarsRover(0, 0, initialDirection)
 
-        marsRover.rotateRight()
+        marsRover.rotate(Right)
 
         marsRover.direction shouldBe expectedDirection
     }
@@ -24,7 +29,7 @@ class RotationTest {
     fun `left rotation`(initialDirection: Direction, expectedDirection: Direction) {
         val marsRover = MarsRover(0, 0, initialDirection)
 
-        marsRover.rotateLeft()
+        marsRover.rotate(Left)
 
         marsRover.direction shouldBe expectedDirection
     }

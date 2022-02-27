@@ -6,6 +6,8 @@ import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
 import io.github.xstefanox.marsrover.Movement.Backwards
 import io.github.xstefanox.marsrover.Movement.Forward
+import io.github.xstefanox.marsrover.Rotation.Left
+import io.github.xstefanox.marsrover.Rotation.Right
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
@@ -30,6 +32,14 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
         }
     }
 
+    fun rotate(rotation: Rotation) {
+        log.debug("rotating ${rotation::class.simpleName}")
+        when (rotation) {
+            Left -> rotateLeft()
+            Right -> rotateRight()
+        }
+    }
+
     private fun moveForward() {
         position = when (direction) {
             South -> position.copy(y = position.y - 1)
@@ -48,7 +58,7 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
         }
     }
 
-    fun rotateRight() {
+    private fun rotateRight() {
         direction = when (direction) {
             North -> East
             South -> West
@@ -57,7 +67,7 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
         }
     }
 
-    fun rotateLeft() {
+    private fun rotateLeft() {
         direction = when (direction) {
             North -> West
             South -> East
