@@ -5,43 +5,31 @@ import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 class MovementTest {
 
-    @Test
-    fun `forward movement to north`() {
-        val marsRover = MarsRover(0, 0, North)
+    @ParameterizedTest
+    @MethodSource("movements")
+    fun `forward movement`(initialDirection: Direction, expectedPosition: Position) {
+        val marsRover = MarsRover(0, 0, initialDirection)
 
         marsRover.moveForward()
 
-        marsRover.position shouldBe Position(0, 1)
+        marsRover.position shouldBe expectedPosition
     }
 
-    @Test
-    fun `forward movement to south`() {
-        val marsRover = MarsRover(0, 0, South)
+    companion object {
 
-        marsRover.moveForward()
-
-        marsRover.position shouldBe Position(0, -1)
-    }
-
-    @Test
-    fun `forward movement to east`() {
-        val marsRover = MarsRover(0, 0, East)
-
-        marsRover.moveForward()
-
-        marsRover.position shouldBe Position(1, 0)
-    }
-
-    @Test
-    fun `forward movement to west`() {
-        val marsRover = MarsRover(0, 0, West)
-
-        marsRover.moveForward()
-
-        marsRover.position shouldBe Position(-1, 0)
+        @JvmStatic
+        fun movements(): List<Arguments> = listOf(
+            arguments(North, Position(0, 1)),
+            arguments(South, Position(0, -1)),
+            arguments(East, Position(1, 0)),
+            arguments(West, Position(-1, 0)),
+        )
     }
 }
