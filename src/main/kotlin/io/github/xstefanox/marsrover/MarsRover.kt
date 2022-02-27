@@ -76,9 +76,9 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
         }
     }
 
-    fun execute(emptyList: List<Movement>) {
-        if (emptyList.isNotEmpty()) {
-            when (emptyList.first()) {
+    fun execute(vararg movements: Movement) {
+        if (movements.isNotEmpty()) {
+            when (movements.first()) {
                 Backwards -> moveBackwards()
                 Forward -> moveForward()
             }

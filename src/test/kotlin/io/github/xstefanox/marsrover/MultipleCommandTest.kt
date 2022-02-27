@@ -18,7 +18,7 @@ class MultipleCommandTest {
     fun `empty list of commands`() {
         val marsRover = MarsRover(0, 0, North)
 
-        marsRover.execute(emptyList())
+        marsRover.execute()
 
         assertSoftly(marsRover) {
             position shouldBe Position(0, 0)
@@ -31,7 +31,7 @@ class MultipleCommandTest {
     fun `single command - movement`(movement: Movement) {
         val marsRover = MarsRover(0, 0, North)
 
-        marsRover.execute(listOf(movement))
+        marsRover.execute(movement)
 
         marsRover.position shouldNotBe Position(0, 0)
     }
