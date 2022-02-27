@@ -1,6 +1,7 @@
 package io.github.xstefanox.marsrover
 
 import io.github.xstefanox.marsrover.Direction.N
+import io.github.xstefanox.marsrover.Direction.S
 
 class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = N) {
 
@@ -11,6 +12,10 @@ class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = N) {
         }
 
     fun moveForward() {
-        position = Position(0, 1)
+        position = if (direction == S) {
+            Position(0, position.y - 1)
+        } else {
+            Position(0, position.y + 1)
+        }
     }
 }
