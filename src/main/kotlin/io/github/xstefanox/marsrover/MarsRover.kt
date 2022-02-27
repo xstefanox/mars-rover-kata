@@ -21,4 +21,13 @@ class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = North) {
             North -> Position(position.x, position.y + 1)
         }
     }
+
+    fun moveBackwards() {
+        position = when (direction) {
+            South -> Position(position.x, position.y + 1)
+            East -> Position(position.x - 1, position.y)
+            West -> Position(position.x + 1, position.y)
+            North -> Position(position.x, position.y - 1)
+        }
+    }
 }

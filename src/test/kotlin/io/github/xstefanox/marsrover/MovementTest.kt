@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource
 class MovementTest {
 
     @ParameterizedTest
-    @MethodSource("movements")
+    @MethodSource("forward movements")
     fun `forward movement`(initialDirection: Direction, expectedPosition: Position) {
         val marsRover = MarsRover(0, 0, initialDirection)
 
@@ -22,14 +22,32 @@ class MovementTest {
         marsRover.position shouldBe expectedPosition
     }
 
+    @ParameterizedTest
+    @MethodSource("backwards movements")
+    fun `backwards movement`(initialDirection: Direction, expectedPosition: Position) {
+        val marsRover = MarsRover(0, 0, initialDirection)
+
+        marsRover.moveBackwards()
+
+        marsRover.position shouldBe expectedPosition
+    }
+
     companion object {
 
         @JvmStatic
-        fun movements(): List<Arguments> = listOf(
+        fun `forward movements`(): List<Arguments> = listOf(
             arguments(North, Position(0, 1)),
             arguments(South, Position(0, -1)),
             arguments(East, Position(1, 0)),
             arguments(West, Position(-1, 0)),
+        )
+
+        @JvmStatic
+        fun `backwards movements`(): List<Arguments> = listOf(
+            arguments(North, Position(0, -1)),
+            arguments(South, Position(0, 1)),
+            arguments(East, Position(-1, 0)),
+            arguments(West, Position(1, 0)),
         )
     }
 }
