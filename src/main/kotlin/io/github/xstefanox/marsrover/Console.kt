@@ -8,17 +8,23 @@ import io.github.xstefanox.marsrover.Command.Rotation.Right
 class Console(private val marsRover: MarsRover) {
 
     fun execute(commands: String): Any {
-        val roverCommands = mutableListOf<Command>()
-        when (commands.first()) {
-            'F' -> roverCommands += Forward
-            'B' -> roverCommands += Backwards
-            'R' -> roverCommands += Right
-            'L' -> roverCommands += Left
-        }
-        marsRover.execute(*roverCommands.toTypedArray())
+
+        val roverCommands = commands
+            .map(Char::toRoverCommand)
+            .toTypedArray()
+
+        marsRover.execute(*roverCommands)
 
         return Done
     }
 
     object Done
+}
+
+private fun Char.toRoverCommand() = when (this) {
+    'F' -> Forward
+    'B' -> Backwards
+    'R' -> Right
+    'L' -> Left
+    else -> TODO()
 }

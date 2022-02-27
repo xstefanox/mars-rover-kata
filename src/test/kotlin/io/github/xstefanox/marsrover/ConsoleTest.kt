@@ -13,6 +13,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -21,14 +22,15 @@ internal class ConsoleTest {
 
     private val marsRover = mockk<MarsRover> {
         every {
-            execute(any())
+            execute(*anyVararg())
         } just runs
     }
+
+    private val console = Console(marsRover)
 
     @ParameterizedTest
     @MethodSource("movements")
     fun `parse valid movement`(movement: String, expectedMovement: Movement) {
-        val console = Console(marsRover)
 
         val result = console.execute(movement)
 
@@ -43,7 +45,6 @@ internal class ConsoleTest {
     @ParameterizedTest
     @MethodSource("rotations")
     fun `parse valid rotations`(movement: String, expectedRotation: Command.Rotation) {
-        val console = Console(marsRover)
 
         val result = console.execute(movement)
 
@@ -51,6 +52,19 @@ internal class ConsoleTest {
             result shouldBe Done
             verify {
                 marsRover.execute(expectedRotation)
+            }
+        }
+    }
+
+    @Test
+    fun `parse a list of valid commands`() {
+
+        val result = console.execute("FBLR")
+
+        assertSoftly {
+            result shouldBe Done
+            verify {
+                marsRover.execute(Forward, Backwards, Left, Right)
             }
         }
     }
