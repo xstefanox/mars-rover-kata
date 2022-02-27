@@ -11,4 +11,11 @@ internal class MarsRoverTest {
 
         marsRover.position shouldBe "0.0"
     }
+
+    @Test
+    internal fun `the mars rover should have a default initial direction`() {
+        val marsRover = MarsRover()
+
+        marsRover.direction shouldBe 'N'
+    }
 }
