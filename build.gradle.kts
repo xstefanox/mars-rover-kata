@@ -18,6 +18,7 @@ dependencies {
     testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.junit5.params)
     testImplementation(libs.kotest)
+    testImplementation(libs.mockk)
     testRuntimeOnly(libs.slf4j.simple)
     testRuntimeOnly(libs.slf4j.bridge)
 }

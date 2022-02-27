@@ -11,6 +11,7 @@ dependencyResolutionManagement {
             library("slf4j-api", "org.slf4j", "slf4j-api").versionRef("slf4j")
             library("slf4j-simple", "org.slf4j", "slf4j-simple").versionRef("slf4j")
             library("slf4j-bridge", "org.slf4j", "jul-to-slf4j").versionRef("slf4j")
+            library("mockk", "io.mockk", "mockk").version("1.12.2")
         }
     }
 }
