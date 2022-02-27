@@ -1,5 +1,6 @@
 package io.github.xstefanox.marsrover
 
+import io.github.xstefanox.marsrover.Direction.E
 import io.github.xstefanox.marsrover.Direction.N
 import io.github.xstefanox.marsrover.Direction.S
 import io.kotest.matchers.shouldBe
@@ -23,5 +24,14 @@ class MovementTest {
         marsRover.moveForward()
 
         marsRover.position shouldBe Position(0, -1)
+    }
+
+    @Test
+    fun `forward movement to east`() {
+        val marsRover = MarsRover(0, 0, E)
+
+        marsRover.moveForward()
+
+        marsRover.position shouldBe Position(1, 0)
     }
 }
