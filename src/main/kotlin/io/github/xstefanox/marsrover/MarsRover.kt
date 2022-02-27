@@ -84,4 +84,13 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
             }
         }
     }
+
+    fun execute(vararg rotations: Rotation) {
+        if (rotations.isNotEmpty()) {
+            when (rotations.first()) {
+                Left -> rotateLeft()
+                Right -> rotateRight()
+            }
+        }
+    }
 }
