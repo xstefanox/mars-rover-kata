@@ -1,5 +1,7 @@
 package io.github.xstefanox.marsrover
 
+import io.github.xstefanox.marsrover.Command.Movement
+import io.github.xstefanox.marsrover.Command.Movement.Backwards
 import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Console.Done
 import io.kotest.assertions.assertSoftly
@@ -9,7 +11,9 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class ConsoleTest {
 
@@ -19,17 +23,27 @@ internal class ConsoleTest {
         } just runs
     }
 
-    @Test
-    fun `parse valid movement`() {
+    @ParameterizedTest
+    @MethodSource("movements")
+    fun `parse valid movement`(movement: String, expectedMovement: Movement) {
         val console = Console(marsRover)
 
-        val result = console.execute("F")
+        val result = console.execute(movement)
 
         assertSoftly {
             result shouldBe Done
             verify {
-                marsRover.execute(Forward)
+                marsRover.execute(expectedMovement)
             }
         }
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun movements() = listOf(
+            arguments("F", Forward),
+            arguments("B", Backwards),
+        )
     }
 }
