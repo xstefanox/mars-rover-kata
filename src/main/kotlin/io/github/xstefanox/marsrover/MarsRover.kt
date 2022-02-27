@@ -56,4 +56,13 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
             East -> South
         }
     }
+
+    fun rotateLeft() {
+        direction = when (direction) {
+            North -> West
+            South -> East
+            West -> South
+            East -> North
+        }
+    }
 }
