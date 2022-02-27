@@ -3,6 +3,7 @@ package io.github.xstefanox.marsrover
 import io.github.xstefanox.marsrover.Direction.E
 import io.github.xstefanox.marsrover.Direction.N
 import io.github.xstefanox.marsrover.Direction.S
+import io.github.xstefanox.marsrover.Direction.W
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
@@ -33,5 +34,14 @@ class MovementTest {
         marsRover.moveForward()
 
         marsRover.position shouldBe Position(1, 0)
+    }
+
+    @Test
+    fun `forward movement to west`() {
+        val marsRover = MarsRover(0, 0, W)
+
+        marsRover.moveForward()
+
+        marsRover.position shouldBe Position(-1, 0)
     }
 }
