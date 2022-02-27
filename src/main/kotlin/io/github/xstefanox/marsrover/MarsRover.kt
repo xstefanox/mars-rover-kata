@@ -24,19 +24,19 @@ class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = North) {
 
     private fun moveForward() {
         position = when (direction) {
-            South -> Position(position.x, position.y - 1)
-            East -> Position(position.x + 1, position.y)
-            West -> Position(position.x - 1, position.y)
-            North -> Position(position.x, position.y + 1)
+            South -> position.copy(y = position.y - 1)
+            East -> position.copy(x = position.x + 1)
+            West -> position.copy(x = position.x - 1)
+            North -> position.copy(y = position.y + 1)
         }
     }
 
     private fun moveBackwards() {
         position = when (direction) {
-            South -> Position(position.x, position.y + 1)
-            East -> Position(position.x - 1, position.y)
-            West -> Position(position.x + 1, position.y)
-            North -> Position(position.x, position.y - 1)
+            South -> position.copy(y = position.y + 1)
+            East -> position.copy(x = position.x - 1)
+            West -> position.copy(x = position.x + 1)
+            North -> position.copy(y = position.y - 1)
         }
     }
 }
