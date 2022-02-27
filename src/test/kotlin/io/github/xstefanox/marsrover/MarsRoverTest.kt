@@ -25,4 +25,11 @@ internal class MarsRoverTest {
 
         marsRover.position shouldBe "1.2"
     }
+
+    @Test
+    internal fun `given initial direction`() {
+        val marsRover = MarsRover(direction = 'S')
+
+        marsRover.direction shouldBe 'S'
+    }
 }
