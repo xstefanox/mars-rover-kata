@@ -9,7 +9,7 @@ internal class MarsRoverTest {
     fun `default initial position`() {
         val marsRover = MarsRover()
 
-        marsRover.position shouldBe "0.0"
+        marsRover.position shouldBe Position(0, 0)
     }
 
     @Test
@@ -23,7 +23,7 @@ internal class MarsRoverTest {
     fun `given initial position`() {
         val marsRover = MarsRover(1, 2)
 
-        marsRover.position shouldBe "1.2"
+        marsRover.position shouldBe Position(1, 2)
     }
 
     @Test
