@@ -1,6 +1,6 @@
 package io.github.xstefanox.marsrover
 
-import io.github.xstefanox.marsrover.Direction.N
+import io.github.xstefanox.marsrover.Direction.North
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -19,7 +19,7 @@ internal class InitialDeploymentTest {
     fun `default initial direction`() {
         val marsRover = MarsRover()
 
-        marsRover.direction shouldBe N
+        marsRover.direction shouldBe North
     }
 
     @Test

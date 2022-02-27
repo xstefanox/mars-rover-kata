@@ -1,11 +1,11 @@
 package io.github.xstefanox.marsrover
 
-import io.github.xstefanox.marsrover.Direction.E
-import io.github.xstefanox.marsrover.Direction.N
-import io.github.xstefanox.marsrover.Direction.S
-import io.github.xstefanox.marsrover.Direction.W
+import io.github.xstefanox.marsrover.Direction.East
+import io.github.xstefanox.marsrover.Direction.North
+import io.github.xstefanox.marsrover.Direction.South
+import io.github.xstefanox.marsrover.Direction.West
 
-class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = N) {
+class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = North) {
 
     var position: Position = Position(x, y)
         private set(value) {
@@ -14,14 +14,11 @@ class MarsRover(x: Int = 0, y: Int = 0, val direction: Direction = N) {
         }
 
     fun moveForward() {
-        position = if (direction == S) {
-            Position(0, position.y - 1)
-        } else if (direction == E) {
-            Position(position.x + 1, position.y)
-        } else if (direction == W) {
-            Position(position.x - 1, position.y)
-        } else {
-            Position(0, position.y + 1)
+        position = when (direction) {
+            South -> Position(position.x, position.y - 1)
+            East -> Position(position.x + 1, position.y)
+            West -> Position(position.x - 1, position.y)
+            North -> Position(position.x, position.y + 1)
         }
     }
 }
