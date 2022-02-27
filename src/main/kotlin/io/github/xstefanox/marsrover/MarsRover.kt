@@ -79,8 +79,8 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
     }
 
     fun execute(vararg commands: Command) {
-        if (commands.isNotEmpty()) {
-            when (commands.first()) {
+        commands.forEach { command ->
+            when (command) {
                 Backwards -> moveBackwards()
                 Forward -> moveForward()
                 Left -> rotateLeft()

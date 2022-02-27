@@ -50,6 +50,18 @@ class MultipleCommandTest {
         marsRover.direction shouldNotBe North
     }
 
+    @Test
+    fun `mixed list of commands`() {
+        val marsRover = MarsRover(0, 0, North)
+
+        marsRover.execute(aRotation(), aMovement())
+
+        assertSoftly(marsRover) {
+            marsRover.position shouldNotBe Position(0, 0)
+            marsRover.direction shouldNotBe North
+        }
+    }
+
     companion object {
 
         @JvmStatic
@@ -65,3 +77,7 @@ class MultipleCommandTest {
         )
     }
 }
+
+private fun aRotation() = setOf(Left, Right).random()
+
+private fun aMovement() = setOf(Forward, Backwards).random()
