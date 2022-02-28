@@ -22,6 +22,7 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.kotest.assertions.arrow)
+    testImplementation(libs.coroutines.test)
     testRuntimeOnly(libs.slf4j.simple)
     testRuntimeOnly(libs.slf4j.bridge)
 }
@@ -33,6 +34,7 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
 }
 
 application {

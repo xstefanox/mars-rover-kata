@@ -13,7 +13,7 @@ import io.github.xstefanox.marsrover.Console.Result.Failure
 
 class Console(private val marsRover: MarsRover) {
 
-    fun execute(commands: String): Either<Failure, Done> = either.eager { // TODO remove the eager
+    suspend fun execute(commands: String): Either<Failure, Done> = either {
 
         val roverCommands = commands
             .toList()

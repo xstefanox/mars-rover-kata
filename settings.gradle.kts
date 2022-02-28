@@ -6,6 +6,7 @@ dependencyResolutionManagement {
             version("junit5", "5.8.2")
             version("slf4j", "1.7.35")
             version("arrow", "1.0.1")
+            library("coroutines-test", "org.jetbrains.kotlinx", "kotlinx-coroutines-test").version("1.6.0")
             library("kotest-assertions", "io.kotest", "kotest-assertions-core").version("5.1.0")
             library("kotest-assertions-arrow", "io.kotest.extensions", "kotest-assertions-arrow").version("1.2.1")
             library("junit5-bom", "org.junit", "junit-bom").version("junit5")

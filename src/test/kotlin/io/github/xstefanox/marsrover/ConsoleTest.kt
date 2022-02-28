@@ -16,6 +16,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -33,7 +34,7 @@ internal class ConsoleTest {
 
     @ParameterizedTest
     @MethodSource("movements")
-    fun `parse valid movement`(movement: String, expectedMovement: Movement) {
+    fun `parse valid movement`(movement: String, expectedMovement: Movement) = runTest {
 
         val result = console.execute(movement)
 
@@ -47,7 +48,7 @@ internal class ConsoleTest {
 
     @ParameterizedTest
     @MethodSource("rotations")
-    fun `parse valid rotations`(movement: String, expectedRotation: Command.Rotation) {
+    fun `parse valid rotations`(movement: String, expectedRotation: Command.Rotation) = runTest {
 
         val result = console.execute(movement)
 
@@ -60,7 +61,7 @@ internal class ConsoleTest {
     }
 
     @Test
-    fun `parse a list of valid commands`() {
+    fun `parse a list of valid commands`() = runTest {
 
         val result = console.execute("FBLR")
 
@@ -73,7 +74,7 @@ internal class ConsoleTest {
     }
 
     @Test
-    fun `parse an invalid command`() {
+    fun `parse an invalid command`() = runTest {
         val result = console.execute("X")
 
         assertSoftly {
