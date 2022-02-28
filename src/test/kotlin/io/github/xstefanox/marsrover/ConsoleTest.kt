@@ -6,8 +6,11 @@ import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Command.Rotation.Left
 import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Console.Done
+import io.github.xstefanox.marsrover.Console.Result.Failure
+import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.assertions.assertSoftly
-import io.kotest.matchers.shouldBe
+import io.mockk.called
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -35,7 +38,7 @@ internal class ConsoleTest {
         val result = console.execute(movement)
 
         assertSoftly {
-            result shouldBe Done
+            result shouldBeRight Done
             verify {
                 marsRover.execute(expectedMovement)
             }
@@ -49,7 +52,7 @@ internal class ConsoleTest {
         val result = console.execute(movement)
 
         assertSoftly {
-            result shouldBe Done
+            result shouldBeRight Done
             verify {
                 marsRover.execute(expectedRotation)
             }
@@ -62,9 +65,21 @@ internal class ConsoleTest {
         val result = console.execute("FBLR")
 
         assertSoftly {
-            result shouldBe Done
+            result shouldBeRight Done
             verify {
                 marsRover.execute(Forward, Backwards, Left, Right)
+            }
+        }
+    }
+
+    @Test
+    fun `parse an invalid command`() {
+        val result = console.execute("X")
+
+        assertSoftly {
+            result shouldBeLeft Failure
+            verify {
+                marsRover wasNot called
             }
         }
     }

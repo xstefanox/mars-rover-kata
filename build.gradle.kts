@@ -14,11 +14,14 @@ repositories {
 
 dependencies {
     implementation(libs.slf4j.api)
+    implementation(libs.arrow)
     testImplementation(kotlin("test"))
     testImplementation(platform(libs.junit5.bom))
+    testImplementation(platform(libs.arrow.bom))
     testImplementation(libs.junit5.params)
-    testImplementation(libs.kotest)
     testImplementation(libs.mockk)
+    testImplementation(libs.kotest.assertions)
+    testImplementation(libs.kotest.assertions.arrow)
     testRuntimeOnly(libs.slf4j.simple)
     testRuntimeOnly(libs.slf4j.bridge)
 }
