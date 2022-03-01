@@ -1,10 +1,11 @@
 package io.github.xstefanox.marsrover
 
 import arrow.core.Either
+import arrow.core.ValidatedNel
 import arrow.core.computations.either
-import arrow.core.left
-import arrow.core.right
-import arrow.core.traverseEither
+import arrow.core.invalidNel
+import arrow.core.traverseValidated
+import arrow.core.validNel
 import io.github.xstefanox.marsrover.Command.Movement.Backwards
 import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Command.Rotation.Left
@@ -15,16 +16,20 @@ class Console(private val marsRover: MarsRover) {
 
     suspend fun execute(commands: String): Either<Failure, Done> = either {
 
-        val roverCommands = commands
-            .toList()
-            .traverseEither(Char::toRoverCommand)
-            .map(List<Command>::toTypedArray)
-            .bind()
+        val roverCommands = parse(commands).bind()
 
         marsRover.execute(*roverCommands)
 
         Done
     }
+
+    private fun parse(commands: String) = commands
+        .toList()
+        .traverseValidated(Char::toRoverCommand)
+        .map(List<Command>::toTypedArray)
+        .mapLeft {
+            InvalidCommands(it.map(InvalidCommand::value).toSet())
+        }
 
     object Done
 
@@ -33,10 +38,12 @@ class Console(private val marsRover: MarsRover) {
     }
 }
 
-private fun Char.toRoverCommand() = when (this) {
-    'F' -> Forward.right()
-    'B' -> Backwards.right()
-    'R' -> Right.right()
-    'L' -> Left.right()
-    else -> InvalidCommands(setOf(this)).left()
+private data class InvalidCommand(val value: Char)
+
+private fun Char.toRoverCommand(): ValidatedNel<InvalidCommand, Command> = when (this) {
+    'F' -> Forward.validNel()
+    'B' -> Backwards.validNel()
+    'R' -> Right.validNel()
+    'L' -> Left.validNel()
+    else -> InvalidCommand(this).invalidNel()
 }

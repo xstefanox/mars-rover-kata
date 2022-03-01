@@ -85,6 +85,18 @@ internal class ConsoleTest {
         }
     }
 
+    @Test
+    fun `parse a list of invalid commands`() = runTest {
+        val result = console.execute("XY")
+
+        assertSoftly {
+            result shouldBeLeft InvalidCommands(setOf('X', 'Y'))
+            verify {
+                marsRover wasNot called
+            }
+        }
+    }
+
     companion object {
 
         @JvmStatic
