@@ -9,7 +9,7 @@ import io.github.xstefanox.marsrover.Command.Movement.Backwards
 import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Command.Rotation.Left
 import io.github.xstefanox.marsrover.Command.Rotation.Right
-import io.github.xstefanox.marsrover.Console.Result.Failure
+import io.github.xstefanox.marsrover.Console.Failure.InvalidCommands
 
 class Console(private val marsRover: MarsRover) {
 
@@ -28,8 +28,8 @@ class Console(private val marsRover: MarsRover) {
 
     object Done
 
-    sealed class Result {
-        object Failure : Result()
+    sealed class Failure {
+        data class InvalidCommands(val commands: Set<Char>) : Failure()
     }
 }
 
@@ -38,5 +38,5 @@ private fun Char.toRoverCommand() = when (this) {
     'B' -> Backwards.right()
     'R' -> Right.right()
     'L' -> Left.right()
-    else -> Failure.left()
+    else -> InvalidCommands(setOf(this)).left()
 }
