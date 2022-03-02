@@ -13,9 +13,17 @@ import io.github.xstefanox.marsrover.Direction.West
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
-class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North) {
+// TODO x type should be UInt
+// TODO y type should be UInt
+class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
+
+    init {
+        // TODO remove integer conversion
+        require(x < planet.width.toInt())
+        require(y < planet.height.toInt())
+    }
 
     var position: Position = Position(x, y)
         private set(value) {
