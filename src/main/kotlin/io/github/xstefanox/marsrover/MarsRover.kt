@@ -1,5 +1,7 @@
 package io.github.xstefanox.marsrover
 
+import arrow.core.Either
+import arrow.core.left
 import io.github.xstefanox.marsrover.Command.Movement
 import io.github.xstefanox.marsrover.Command.Movement.Backwards
 import io.github.xstefanox.marsrover.Command.Movement.Forward
@@ -10,6 +12,8 @@ import io.github.xstefanox.marsrover.Direction.East
 import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
+import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition.Abscissa
+import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition.Ordinate
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
@@ -18,12 +22,6 @@ import java.lang.invoke.MethodHandles
 class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
-
-    init {
-        // TODO remove integer conversion
-        require(x < planet.width.toInt())
-        require(y < planet.height.toInt())
-    }
 
     var position: Position = Position(x, y)
         private set(value) {
@@ -93,6 +91,28 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North, planet: Pl
                 Forward -> moveForward()
                 Left -> rotateLeft()
                 Right -> rotateRight()
+            }
+        }
+    }
+
+    companion object {
+
+        fun create(x: UInt = 0u, y: UInt = 0u, planet: Planet): Either<CreationFailure, MarsRover> {
+
+            if (x >= planet.width) {
+                return Abscissa.left()
+            }
+
+            if (y >= planet.height) {
+                return Ordinate.left()
+            }
+            TODO()
+        }
+
+        sealed class CreationFailure {
+            sealed class InvalidPosition : CreationFailure() {
+                object Abscissa : InvalidPosition()
+                object Ordinate : InvalidPosition()
             }
         }
     }

@@ -1,22 +1,23 @@
 package io.github.xstefanox.marsrover
 
-import io.kotest.assertions.throwables.shouldThrow
+import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition
+import io.kotest.assertions.arrow.core.shouldBeLeft
 import org.junit.jupiter.api.Test
 
 class PlanetTest {
 
     @Test
-    fun `initial position abscissa validation`() {
-        shouldThrow<IllegalArgumentException> {
-            MarsRover(x = 10, planet = Planet.create(width = 10u))
-        }
+    fun `initial position invalid abscissa`() {
+
+        val result = MarsRover.create(x = 10u, planet = Planet.create(width = 10u))
+
+        result shouldBeLeft InvalidPosition.Abscissa
     }
 
     @Test
-    fun `initial position ordinate validation`() {
-        shouldThrow<IllegalArgumentException> {
-            MarsRover(y = 10, planet = Planet.create(height = 10u))
-        }
-    }
+    fun `initial position invalid ordinate`() {
 
+        val result = MarsRover.create(y = 10u, planet = Planet.create(height = 10u))
+        result shouldBeLeft InvalidPosition.Ordinate
+    }
 }
