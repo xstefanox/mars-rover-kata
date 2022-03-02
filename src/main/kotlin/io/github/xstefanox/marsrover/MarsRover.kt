@@ -2,6 +2,7 @@ package io.github.xstefanox.marsrover
 
 import arrow.core.Either
 import arrow.core.left
+import arrow.core.right
 import io.github.xstefanox.marsrover.Command.Movement
 import io.github.xstefanox.marsrover.Command.Movement.Backwards
 import io.github.xstefanox.marsrover.Command.Movement.Forward
@@ -106,7 +107,9 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North, planet: Pl
             if (y >= planet.height) {
                 return Ordinate.left()
             }
-            TODO()
+
+            // TODO remove the integer conversion
+            return MarsRover(x.toInt(), y.toInt()).right()
         }
 
         sealed class CreationFailure {

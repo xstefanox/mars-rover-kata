@@ -2,6 +2,7 @@ package io.github.xstefanox.marsrover
 
 import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition
 import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
 import org.junit.jupiter.api.Test
 
 class PlanetTest {
@@ -19,5 +20,13 @@ class PlanetTest {
 
         val result = MarsRover.create(y = 10u, planet = Planet.create(height = 10u))
         result shouldBeLeft InvalidPosition.Ordinate
+    }
+
+    @Test
+    fun `initial valid position`() {
+
+        val result = MarsRover.create(x = 0u, y = 0u, planet = Planet.create(width = 10u, height = 10u))
+
+        result.shouldBeRight()
     }
 }
