@@ -38,18 +38,18 @@ class MovementTest {
 
         @JvmStatic
         fun `forward movements`(): List<Arguments> = listOf(
-            arguments(North, Position(1u, 2)),
-            arguments(South, Position(1u, 0)),
-            arguments(East, Position(2u, 1)),
-            arguments(West, Position(0u, 1)),
+            arguments(North, Position(1u, 2u)),
+            arguments(South, Position(1u, 0u)),
+            arguments(East, Position(2u, 1u)),
+            arguments(West, Position(0u, 1u)),
         )
 
         @JvmStatic
         fun `backwards movements`(): List<Arguments> = listOf(
-            arguments(North, Position(1u, 0)),
-            arguments(South, Position(1u, 2)),
-            arguments(East, Position(0u, 1)),
-            arguments(West, Position(2u, 1)),
+            arguments(North, Position(1u, 0u)),
+            arguments(South, Position(1u, 2u)),
+            arguments(East, Position(0u, 1u)),
+            arguments(West, Position(2u, 1u)),
         )
     }
 }

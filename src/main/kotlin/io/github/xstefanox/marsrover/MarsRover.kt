@@ -25,7 +25,7 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North, planet: Pl
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
     // TODO remove the integer conversion
-    var position: Position = Position(x.toUInt(), y)
+    var position: Position = Position(x.toUInt(), y.toUInt())
         private set(value) {
             Position(value.x, value.y)
             field = value
@@ -52,19 +52,19 @@ class MarsRover(x: Int = 0, y: Int = 0, direction: Direction = North, planet: Pl
 
     private fun moveForward() {
         position = when (direction) {
-            South -> position.copy(y = position.y - 1)
+            South -> position.copy(y = position.y - 1u)
             East -> position.copy(x = position.x + 1u)
             West -> position.copy(x = position.x - 1u)
-            North -> position.copy(y = position.y + 1)
+            North -> position.copy(y = position.y + 1u)
         }
     }
 
     private fun moveBackwards() {
         position = when (direction) {
-            South -> position.copy(y = position.y + 1)
+            South -> position.copy(y = position.y + 1u)
             East -> position.copy(x = position.x - 1u)
             West -> position.copy(x = position.x + 1u)
-            North -> position.copy(y = position.y - 1)
+            North -> position.copy(y = position.y - 1u)
         }
     }
 
