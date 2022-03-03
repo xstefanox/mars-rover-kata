@@ -27,7 +27,7 @@ class MultipleCommandTest {
 
     @Test
     fun `single command - movement`() {
-        val marsRover = MarsRover.create(0u, 0u, North).get()
+        val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).get()
 
         marsRover.execute(aMovement())
 

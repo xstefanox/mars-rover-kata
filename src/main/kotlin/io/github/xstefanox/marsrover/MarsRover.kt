@@ -49,7 +49,14 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
 
     private fun moveForward() {
         position = when (direction) {
-            South -> position.copy(y = position.y - 1u)
+            South -> {
+                val updatedY = if (position.y == 0u) {
+                    planet.height - 1u
+                } else {
+                    position.y - 1u
+                }
+                position.copy(y = updatedY)
+            }
             East -> position.copy(x = (position.x + 1u) % planet.width)
             West -> {
                 val updatedX = if (position.x == 0u) {
@@ -59,13 +66,13 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
                 }
                 position.copy(x = updatedX)
             }
-            North -> position.copy(y = position.y + 1u)
+            North -> position.copy(y = (position.y + 1u) % planet.height)
         }
     }
 
     private fun moveBackwards() {
         position = when (direction) {
-            South -> position.copy(y = position.y + 1u)
+            South -> position.copy(y = (position.y + 1u) % planet.height)
             East -> {
                 val updatedX = if (position.x == 0u) {
                     planet.width - 1u
@@ -75,7 +82,14 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
                 position.copy(x = updatedX)
             }
             West -> position.copy(x = (position.x + 1u) % planet.width)
-            North -> position.copy(y = position.y - 1u)
+            North -> {
+                val updatedY = if (position.y == 0u) {
+                    planet.height - 1u
+                } else {
+                    position.y - 1u
+                }
+                position.copy(y = updatedY)
+            }
         }
     }
 
