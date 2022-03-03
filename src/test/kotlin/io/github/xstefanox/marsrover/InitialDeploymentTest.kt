@@ -12,7 +12,7 @@ internal class InitialDeploymentTest {
     fun `default initial position`() {
         val marsRover = MarsRover()
 
-        marsRover.position shouldBe Position(0, 0)
+        marsRover.position shouldBe Position(0u, 0)
     }
 
     @Test
@@ -26,7 +26,7 @@ internal class InitialDeploymentTest {
     fun `given initial position`() {
         val marsRover = MarsRover(1, 2, planet = Planet(10u, 10u))
 
-        marsRover.position shouldBe Position(1, 2)
+        marsRover.position shouldBe Position(1u, 2)
     }
 
     @ParameterizedTest

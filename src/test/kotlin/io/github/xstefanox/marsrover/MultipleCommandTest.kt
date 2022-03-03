@@ -19,7 +19,7 @@ class MultipleCommandTest {
         marsRover.execute()
 
         assertSoftly(marsRover) {
-            position shouldBe Position(0, 0)
+            position shouldBe Position(0u, 0)
             direction shouldBe North
         }
     }
@@ -30,7 +30,7 @@ class MultipleCommandTest {
 
         marsRover.execute(aMovement())
 
-        marsRover.position shouldNotBe Position(0, 0)
+        marsRover.position shouldNotBe Position(0u, 0)
     }
 
     @Test
@@ -49,7 +49,7 @@ class MultipleCommandTest {
         marsRover.execute(aRotation(), aMovement())
 
         assertSoftly(marsRover) {
-            marsRover.position shouldNotBe Position(0, 0)
+            marsRover.position shouldNotBe Position(0u, 0)
             marsRover.direction shouldNotBe North
         }
     }

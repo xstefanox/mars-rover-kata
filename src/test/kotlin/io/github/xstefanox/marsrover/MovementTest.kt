@@ -17,7 +17,7 @@ class MovementTest {
     @ParameterizedTest
     @MethodSource("forward movements")
     fun `forward movement`(initialDirection: Direction, expectedPosition: Position) {
-        val marsRover = MarsRover(0, 0, initialDirection)
+        val marsRover = MarsRover(1, 1, initialDirection)
 
         marsRover.move(Forward)
 
@@ -27,7 +27,7 @@ class MovementTest {
     @ParameterizedTest
     @MethodSource("backwards movements")
     fun `backwards movement`(initialDirection: Direction, expectedPosition: Position) {
-        val marsRover = MarsRover(0, 0, initialDirection)
+        val marsRover = MarsRover(1, 1, initialDirection)
 
         marsRover.move(Backwards)
 
@@ -38,18 +38,18 @@ class MovementTest {
 
         @JvmStatic
         fun `forward movements`(): List<Arguments> = listOf(
-            arguments(North, Position(0, 1)),
-            arguments(South, Position(0, -1)),
-            arguments(East, Position(1, 0)),
-            arguments(West, Position(-1, 0)),
+            arguments(North, Position(1u, 2)),
+            arguments(South, Position(1u, 0)),
+            arguments(East, Position(2u, 1)),
+            arguments(West, Position(0u, 1)),
         )
 
         @JvmStatic
         fun `backwards movements`(): List<Arguments> = listOf(
-            arguments(North, Position(0, -1)),
-            arguments(South, Position(0, 1)),
-            arguments(East, Position(-1, 0)),
-            arguments(West, Position(1, 0)),
+            arguments(North, Position(1u, 0)),
+            arguments(South, Position(1u, 2)),
+            arguments(East, Position(0u, 1)),
+            arguments(West, Position(2u, 1)),
         )
     }
 }
