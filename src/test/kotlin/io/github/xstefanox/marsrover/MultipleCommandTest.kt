@@ -14,7 +14,7 @@ class MultipleCommandTest {
 
     @Test
     fun `empty list of commands`() {
-        val marsRover = MarsRover(0, 0, North)
+        val marsRover = MarsRover(0u, 0, North)
 
         marsRover.execute()
 
@@ -26,7 +26,7 @@ class MultipleCommandTest {
 
     @Test
     fun `single command - movement`() {
-        val marsRover = MarsRover(0, 0, North)
+        val marsRover = MarsRover(0u, 0, North)
 
         marsRover.execute(aMovement())
 
@@ -35,7 +35,7 @@ class MultipleCommandTest {
 
     @Test
     fun `single command - rotation`() {
-        val marsRover = MarsRover(0, 0, North)
+        val marsRover = MarsRover(0u, 0, North)
 
         marsRover.execute(aRotation())
 
@@ -44,7 +44,7 @@ class MultipleCommandTest {
 
     @Test
     fun `mixed list of commands`() {
-        val marsRover = MarsRover(0, 0, North)
+        val marsRover = MarsRover(0u, 0, North)
 
         marsRover.execute(aRotation(), aMovement())
 

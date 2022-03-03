@@ -24,7 +24,7 @@ internal class InitialDeploymentTest {
 
     @Test
     fun `given initial position`() {
-        val marsRover = MarsRover(1, 2, planet = Planet(10u, 10u))
+        val marsRover = MarsRover(1u, 2, planet = Planet(10u, 10u))
 
         marsRover.position shouldBe Position(1u, 2u)
     }
