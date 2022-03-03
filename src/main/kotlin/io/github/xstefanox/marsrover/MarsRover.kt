@@ -18,7 +18,7 @@ import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.Invalid
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
-class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = North, planet: Planet) {
+class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = North, private val planet: Planet) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
@@ -50,8 +50,15 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
     private fun moveForward() {
         position = when (direction) {
             South -> position.copy(y = position.y - 1u)
-            East -> position.copy(x = position.x + 1u)
-            West -> position.copy(x = position.x - 1u)
+            East -> position.copy(x = (position.x + 1u) % planet.width)
+            West -> {
+                val updatedX = if (position.x == 0u) {
+                    planet.width - 1u
+                } else {
+                    position.x - 1u
+                }
+                position.copy(x = updatedX)
+            }
             North -> position.copy(y = position.y + 1u)
         }
     }
@@ -59,8 +66,15 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
     private fun moveBackwards() {
         position = when (direction) {
             South -> position.copy(y = position.y + 1u)
-            East -> position.copy(x = position.x - 1u)
-            West -> position.copy(x = position.x + 1u)
+            East -> {
+                val updatedX = if (position.x == 0u) {
+                    planet.width - 1u
+                } else {
+                    position.x - 1u
+                }
+                position.copy(x = updatedX)
+            }
+            West -> position.copy(x = (position.x + 1u) % planet.width)
             North -> position.copy(y = position.y - 1u)
         }
     }

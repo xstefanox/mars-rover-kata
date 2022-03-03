@@ -45,7 +45,7 @@ class MultipleCommandTest {
 
     @Test
     fun `mixed list of commands`() {
-        val marsRover = MarsRover.create(0u, 0u, North).get()
+        val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).get()
 
         marsRover.execute(aRotation(), aMovement())
 
