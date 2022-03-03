@@ -18,7 +18,8 @@ import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.Invalid
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
-class MarsRover(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
+// TODO remove default values
+class MarsRover private constructor(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
@@ -96,7 +97,7 @@ class MarsRover(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet
 
     companion object {
 
-        fun create(x: UInt = 0u, y: UInt = 0u, planet: Planet): Either<CreationFailure, MarsRover> {
+        fun create(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet: Planet = Planet(1u, 1u)): Either<CreationFailure, MarsRover> {
 
             if (x >= planet.width) {
                 return Abscissa.left()
@@ -106,7 +107,7 @@ class MarsRover(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet
                 return Ordinate.left()
             }
 
-            return MarsRover(x, y).right()
+            return MarsRover(x, y, direction, planet).right()
         }
 
         sealed class CreationFailure {
