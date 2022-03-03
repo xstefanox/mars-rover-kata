@@ -18,8 +18,7 @@ import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.Invalid
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
-// TODO remove default values
-class MarsRover private constructor(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
+class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = North, planet: Planet) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
