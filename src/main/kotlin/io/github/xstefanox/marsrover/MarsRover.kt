@@ -18,14 +18,11 @@ import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.Invalid
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
-// TODO x type should be UInt
-// TODO y type should be UInt
-class MarsRover(x: UInt = 0u, y: Int = 0, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
+class MarsRover(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet: Planet = Planet(1u, 1u)) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
-    // TODO remove the integer conversion
-    var position: Position = Position(x, y.toUInt())
+    var position: Position = Position(x, y)
         private set(value) {
             Position(value.x, value.y)
             field = value
@@ -109,8 +106,7 @@ class MarsRover(x: UInt = 0u, y: Int = 0, direction: Direction = North, planet: 
                 return Ordinate.left()
             }
 
-            // TODO remove the integer conversion
-            return MarsRover(x, y.toInt()).right()
+            return MarsRover(x, y).right()
         }
 
         sealed class CreationFailure {

@@ -17,7 +17,7 @@ class RotationTest {
     @ParameterizedTest
     @MethodSource("right rotations")
     fun `right rotation`(initialDirection: Direction, expectedDirection: Direction) {
-        val marsRover = MarsRover(0u, 0, initialDirection)
+        val marsRover = MarsRover(0u, 0u, initialDirection)
 
         marsRover.rotate(Right)
 
@@ -27,7 +27,7 @@ class RotationTest {
     @ParameterizedTest
     @MethodSource("left rotations")
     fun `left rotation`(initialDirection: Direction, expectedDirection: Direction) {
-        val marsRover = MarsRover(0u, 0, initialDirection)
+        val marsRover = MarsRover(0u, 0u, initialDirection)
 
         marsRover.rotate(Left)
 

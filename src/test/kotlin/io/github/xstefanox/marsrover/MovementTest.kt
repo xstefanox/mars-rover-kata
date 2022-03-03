@@ -17,7 +17,7 @@ class MovementTest {
     @ParameterizedTest
     @MethodSource("forward movements")
     fun `forward movement`(initialDirection: Direction, expectedPosition: Position) {
-        val marsRover = MarsRover(1u, 1, initialDirection)
+        val marsRover = MarsRover(1u, 1u, initialDirection)
 
         marsRover.move(Forward)
 
@@ -27,7 +27,7 @@ class MovementTest {
     @ParameterizedTest
     @MethodSource("backwards movements")
     fun `backwards movement`(initialDirection: Direction, expectedPosition: Position) {
-        val marsRover = MarsRover(1u, 1, initialDirection)
+        val marsRover = MarsRover(1u, 1u, initialDirection)
 
         marsRover.move(Backwards)
 
