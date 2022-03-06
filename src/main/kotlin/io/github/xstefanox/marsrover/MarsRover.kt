@@ -49,48 +49,28 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
 
     private fun moveForward() {
         position = when (direction) {
-            South -> {
-                val updatedY = if (position.y == 0u) {
-                    planet.height - 1u
-                } else {
-                    position.y - 1u
-                }
-                position.copy(y = updatedY)
-            }
-            East -> position.copy(x = (position.x + 1u) % planet.width)
-            West -> {
-                val updatedX = if (position.x == 0u) {
-                    planet.width - 1u
-                } else {
-                    position.x - 1u
-                }
-                position.copy(x = updatedX)
-            }
-            North -> position.copy(y = (position.y + 1u) % planet.height)
+            South -> position.copy(y = wrapUnderflow(position.y, planet.yRange))
+            East -> position.copy(x = wrapOverflow(position.x, planet.width))
+            West -> position.copy(x = wrapUnderflow(position.x, planet.xRange))
+            North -> position.copy(y = wrapOverflow(position.y, planet.height))
         }
     }
 
     private fun moveBackwards() {
         position = when (direction) {
-            South -> position.copy(y = (position.y + 1u) % planet.height)
-            East -> {
-                val updatedX = if (position.x == 0u) {
-                    planet.width - 1u
-                } else {
-                    position.x - 1u
-                }
-                position.copy(x = updatedX)
-            }
-            West -> position.copy(x = (position.x + 1u) % planet.width)
-            North -> {
-                val updatedY = if (position.y == 0u) {
-                    planet.height - 1u
-                } else {
-                    position.y - 1u
-                }
-                position.copy(y = updatedY)
-            }
+            South -> position.copy(y = wrapOverflow(position.y, planet.height))
+            East -> position.copy(x = wrapUnderflow(position.x, planet.xRange))
+            West -> position.copy(x = wrapOverflow(position.x, planet.width))
+            North -> position.copy(y = wrapUnderflow(position.y, planet.yRange))
         }
+    }
+
+    private fun wrapOverflow(axis: UInt, size: UInt) = (axis + Movement.size) % size
+
+    private fun wrapUnderflow(axis: UInt, range: UIntRange) = if (axis == range.first) {
+        range.last
+    } else {
+        axis - Movement.size
     }
 
     private fun rotateRight() {
@@ -124,7 +104,12 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
 
     companion object {
 
-        fun create(x: UInt = 0u, y: UInt = 0u, direction: Direction = North, planet: Planet = Planet(1u, 1u)): Either<CreationFailure, MarsRover> {
+        fun create(
+            x: UInt = 0u,
+            y: UInt = 0u,
+            direction: Direction = North,
+            planet: Planet = Planet(1u, 1u)
+        ): Either<CreationFailure, MarsRover> {
 
             if (x >= planet.width) {
                 return Abscissa.left()
