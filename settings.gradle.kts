@@ -17,6 +17,7 @@ dependencyResolutionManagement {
             library("mockk", "io.mockk", "mockk").version("1.12.2")
             library("arrow-bom", "io.arrow-kt", "arrow-stack").versionRef("arrow")
             library("arrow", "io.arrow-kt", "arrow-core").versionRef("arrow")
+            plugin("ktlint", "org.jlleitschuh.gradle.ktlint").version("10.2.1")
         }
     }
 }
