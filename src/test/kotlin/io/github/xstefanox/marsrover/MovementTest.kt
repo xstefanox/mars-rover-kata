@@ -6,7 +6,7 @@ import io.github.xstefanox.marsrover.Direction.East
 import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
-import io.github.xstefanox.marsrover.test.get
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -18,7 +18,7 @@ class MovementTest {
     @ParameterizedTest
     @MethodSource("forwardMovementsAndExpectedPositions")
     fun `forward movement`(initialDirection: Direction, expectedPosition: Position) {
-        val marsRover = MarsRover.create(1u, 1u, initialDirection, Planet(3u, 3u)).get()
+        val marsRover = MarsRover.create(1u, 1u, initialDirection, Planet(3u, 3u)).shouldBeRight()
 
         marsRover.move(Forward)
 
@@ -28,7 +28,7 @@ class MovementTest {
     @ParameterizedTest
     @MethodSource("backwardsMovementsAndExpectedPositions")
     fun `backwards movement`(initialDirection: Direction, expectedPosition: Position) {
-        val marsRover = MarsRover.create(1u, 1u, initialDirection, Planet(3u, 3u)).get()
+        val marsRover = MarsRover.create(1u, 1u, initialDirection, Planet(3u, 3u)).shouldBeRight()
 
         marsRover.move(Backwards)
 

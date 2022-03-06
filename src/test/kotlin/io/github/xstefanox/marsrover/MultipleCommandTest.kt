@@ -5,7 +5,7 @@ import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Command.Rotation.Left
 import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Direction.North
-import io.github.xstefanox.marsrover.test.get
+import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -15,7 +15,7 @@ class MultipleCommandTest {
 
     @Test
     fun `empty list of commands`() {
-        val marsRover = MarsRover.create(0u, 0u, North).get()
+        val marsRover = MarsRover.create(0u, 0u, North).shouldBeRight()
 
         marsRover.execute()
 
@@ -27,7 +27,7 @@ class MultipleCommandTest {
 
     @Test
     fun `single command - movement`() {
-        val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).get()
+        val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).shouldBeRight()
 
         marsRover.execute(aMovement())
 
@@ -36,7 +36,7 @@ class MultipleCommandTest {
 
     @Test
     fun `single command - rotation`() {
-        val marsRover = MarsRover.create(0u, 0u, North).get()
+        val marsRover = MarsRover.create(0u, 0u, North).shouldBeRight()
 
         marsRover.execute(aRotation())
 
@@ -45,7 +45,7 @@ class MultipleCommandTest {
 
     @Test
     fun `mixed list of commands`() {
-        val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).get()
+        val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).shouldBeRight()
 
         marsRover.execute(aRotation(), aMovement())
 
