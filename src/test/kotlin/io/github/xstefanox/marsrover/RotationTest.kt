@@ -20,7 +20,7 @@ class RotationTest {
     fun `right rotation`(initialDirection: Direction, expectedDirection: Direction) {
         val marsRover = MarsRover.create(0u, 0u, initialDirection).shouldBeRight()
 
-        marsRover.rotate(Right)
+        marsRover.execute(Right)
 
         marsRover.direction shouldBe expectedDirection
     }
@@ -30,7 +30,7 @@ class RotationTest {
     fun `left rotation`(initialDirection: Direction, expectedDirection: Direction) {
         val marsRover = MarsRover.create(0u, 0u, initialDirection).shouldBeRight()
 
-        marsRover.rotate(Left)
+        marsRover.execute(Left)
 
         marsRover.direction shouldBe expectedDirection
     }

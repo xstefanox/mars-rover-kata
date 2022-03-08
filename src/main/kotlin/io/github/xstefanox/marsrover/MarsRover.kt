@@ -31,7 +31,16 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
     var direction: Direction = direction
         private set
 
-    fun move(movement: Movement) {
+    fun execute(vararg commands: Command) {
+        commands.forEach { command ->
+            when (command) {
+                is Movement -> move(command)
+                is Rotation -> rotate(command)
+            }
+        }
+    }
+
+    private fun move(movement: Movement) {
         log.debug("moving ${movement::class.simpleName}")
         when (movement) {
             Backwards -> moveBackwards()
@@ -39,7 +48,7 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
         }
     }
 
-    fun rotate(rotation: Rotation) {
+    private fun rotate(rotation: Rotation) {
         log.debug("rotating ${rotation::class.simpleName}")
         when (rotation) {
             Left -> rotateLeft()
@@ -88,17 +97,6 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
             South -> East
             West -> South
             East -> North
-        }
-    }
-
-    fun execute(vararg commands: Command) {
-        commands.forEach { command ->
-            when (command) {
-                Backwards -> moveBackwards()
-                Forward -> moveForward()
-                Left -> rotateLeft()
-                Right -> rotateRight()
-            }
         }
     }
 

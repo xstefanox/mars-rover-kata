@@ -20,7 +20,7 @@ class MovementTest {
     fun `forward movement`(initialDirection: Direction, expectedPosition: Position) {
         val marsRover = MarsRover.create(1u, 1u, initialDirection, Planet(3u, 3u)).shouldBeRight()
 
-        marsRover.move(Forward)
+        marsRover.execute(Forward)
 
         marsRover.position shouldBe expectedPosition
     }
@@ -30,7 +30,7 @@ class MovementTest {
     fun `backwards movement`(initialDirection: Direction, expectedPosition: Position) {
         val marsRover = MarsRover.create(1u, 1u, initialDirection, Planet(3u, 3u)).shouldBeRight()
 
-        marsRover.move(Backwards)
+        marsRover.execute(Backwards)
 
         marsRover.position shouldBe expectedPosition
     }
