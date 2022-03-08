@@ -1,5 +1,6 @@
 package io.github.xstefanox.marsrover
 
+import arrow.core.left
 import arrow.core.right
 import io.github.xstefanox.marsrover.Command.Movement
 import io.github.xstefanox.marsrover.Command.Movement.Backwards
@@ -96,6 +97,21 @@ internal class ConsoleTest {
                 marsRover wasNot called
             }
         }
+    }
+
+    @Test
+    fun `handle obstacle detected`() = runTest {
+        val obstaclePosition = aPosition()
+
+        every {
+            marsRover.execute(*anyVararg())
+        } answers {
+            MarsRover.Failure.ObstacleDetected(obstaclePosition).left()
+        }
+
+        val result = console.execute("F")
+
+        result shouldBeLeft Console.Failure.ObstacleDetected(obstaclePosition)
     }
 
     companion object {

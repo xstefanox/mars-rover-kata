@@ -11,6 +11,7 @@ import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Command.Rotation.Left
 import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Console.Failure.InvalidCommands
+import io.github.xstefanox.marsrover.Console.Failure.ObstacleDetected
 
 class Console(private val marsRover: MarsRover) {
 
@@ -18,9 +19,17 @@ class Console(private val marsRover: MarsRover) {
 
         val roverCommands = parse(commands).bind()
 
-        marsRover.execute(*roverCommands)
+        executeCommands(roverCommands).bind()
 
         Done
+    }
+
+    private fun executeCommands(roverCommands: Array<Command>): Either<ObstacleDetected, MarsRover.Done> {
+        return marsRover.execute(*roverCommands).mapLeft {
+            when (it) {
+                is MarsRover.Failure.ObstacleDetected -> ObstacleDetected(it.position)
+            }
+        }
     }
 
     private fun parse(commands: String) = commands
@@ -35,6 +44,7 @@ class Console(private val marsRover: MarsRover) {
 
     sealed class Failure {
         data class InvalidCommands(val commands: Set<Char>) : Failure()
+        data class ObstacleDetected(val position: Position) : Failure()
     }
 }
 
