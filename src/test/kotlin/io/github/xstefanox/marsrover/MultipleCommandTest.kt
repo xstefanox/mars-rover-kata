@@ -1,9 +1,5 @@
 package io.github.xstefanox.marsrover
 
-import io.github.xstefanox.marsrover.Command.Movement.Backwards
-import io.github.xstefanox.marsrover.Command.Movement.Forward
-import io.github.xstefanox.marsrover.Command.Rotation.Left
-import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.MarsRover.Done
 import io.kotest.assertions.arrow.core.shouldBeRight
@@ -64,7 +60,3 @@ class MultipleCommandTest {
         }
     }
 }
-
-private fun aRotation() = setOf(Left, Right).random()
-
-private fun aMovement() = setOf(Forward, Backwards).random()
