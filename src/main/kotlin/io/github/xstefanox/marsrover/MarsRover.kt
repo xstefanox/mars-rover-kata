@@ -39,7 +39,7 @@ class MarsRover private constructor(
     var direction: Direction = direction
         private set
 
-    fun execute(vararg commands: Command): Either<Failure, Done> = either.eager { // REFACTOR transform into suspending
+    fun execute(vararg commands: Command): Either<Failure, Done> = either.eager {
         commands.forEach { command ->
             when (command) {
                 is Movement -> move(command).bind()
@@ -50,12 +50,15 @@ class MarsRover private constructor(
         Done
     }
 
-    private fun move(movement: Movement): Either<Failure, Done> {
+    private fun move(movement: Movement): Either<Failure, Done> = either.eager {
         log.debug("moving ${movement::class.simpleName}")
-        return when (movement) {
+        val updatedPosition = when (movement) {
             Backwards -> moveBackwards()
             Forward -> moveForward()
         }
+        searchForObstacle(updatedPosition).bind()
+        position = updatedPosition
+        Done
     }
 
     private fun rotate(rotation: Rotation) {
@@ -66,31 +69,30 @@ class MarsRover private constructor(
         }
     }
 
-    private fun moveForward(): Either<Failure, Done> {
-        val updatedPosition = when (direction) {
+    private fun moveForward(): Position {
+        return when (direction) {
             South -> position.copy(y = wrapUnderflow(position.y, planet.yRange))
             East -> position.copy(x = wrapOverflow(position.x, planet.width))
             West -> position.copy(x = wrapUnderflow(position.x, planet.xRange))
             North -> position.copy(y = wrapOverflow(position.y, planet.height))
         }
-
-        return if (updatedPosition in obstacles) {
-            ObstacleDetected(updatedPosition).left()
-        } else {
-            position = updatedPosition
-            Done.right()
-        }
     }
 
-    private fun moveBackwards(): Either<Failure, Done> {
-        position = when (direction) {
+    private fun moveBackwards(): Position {
+        return when (direction) {
             South -> position.copy(y = wrapOverflow(position.y, planet.height))
             East -> position.copy(x = wrapUnderflow(position.x, planet.xRange))
             West -> position.copy(x = wrapOverflow(position.x, planet.width))
             North -> position.copy(y = wrapUnderflow(position.y, planet.yRange))
         }
+    }
 
-        return Done.right()
+    private fun searchForObstacle(updatedPosition: Position): Either<ObstacleDetected, Done> {
+        return if (updatedPosition in obstacles) {
+            ObstacleDetected(updatedPosition).left()
+        } else {
+            Done.right()
+        }
     }
 
     private fun wrapOverflow(axis: UInt, size: UInt) = (axis + Movement.size) % size
