@@ -21,22 +21,21 @@ import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
 class MarsRover private constructor(
-    x: UInt,
-    y: UInt,
-    direction: Direction = North,
+    initialPosition: Position,
+    initialDirection: Direction = North,
     private val planet: Planet,
     private val obstacles: Obstacles,
 ) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
-    var position: Position = Position(x, y)
+    var position: Position = initialPosition
         private set(value) {
             Position(value.x, value.y)
             field = value
         }
 
-    var direction: Direction = direction
+    var direction: Direction = initialDirection
         private set
 
     fun execute(vararg commands: Command): Either<Failure, Done> = either.eager {
@@ -145,7 +144,7 @@ class MarsRover private constructor(
                 return Ordinate.left()
             }
 
-            return MarsRover(x, y, direction, planet, obstacles).right()
+            return MarsRover(Position(x, y), direction, planet, obstacles).right()
         }
 
         sealed class CreationFailure {
