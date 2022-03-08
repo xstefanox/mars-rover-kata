@@ -1,7 +1,19 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import io.github.xstefanox.marsrover.Console
+import io.github.xstefanox.marsrover.Direction.North
+import io.github.xstefanox.marsrover.MarsRover
+import io.github.xstefanox.marsrover.Obstacles
+import io.github.xstefanox.marsrover.Planet
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+suspend fun main(args: Array<String>) {
+    MarsRover.create(
+        0u,
+        0u,
+        North,
+        Planet(10u, 10u),
+        Obstacles(emptySet()),
+    ).map {
+        Console(it)
+    }.tap {
+        it.execute(args[0])
+    }
 }
