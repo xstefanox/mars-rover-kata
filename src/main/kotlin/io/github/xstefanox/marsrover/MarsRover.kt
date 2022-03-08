@@ -1,6 +1,7 @@
 package io.github.xstefanox.marsrover
 
 import arrow.core.Either
+import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
 import io.github.xstefanox.marsrover.Command.Movement
@@ -15,10 +16,17 @@ import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
 import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition.Abscissa
 import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition.Ordinate
+import io.github.xstefanox.marsrover.MarsRover.Failure.ObstacleDetected
 import org.slf4j.LoggerFactory
 import java.lang.invoke.MethodHandles
 
-class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = North, private val planet: Planet) {
+class MarsRover private constructor(
+    x: UInt,
+    y: UInt,
+    direction: Direction = North,
+    private val planet: Planet,
+    private val obstacles: Obstacles,
+) {
 
     private val log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
 
@@ -31,20 +39,20 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
     var direction: Direction = direction
         private set
 
-    fun execute(vararg commands: Command): Either<Nothing, Done> {
+    fun execute(vararg commands: Command): Either<Failure, Done> = either.eager { // REFACTOR transform into suspending
         commands.forEach { command ->
             when (command) {
-                is Movement -> move(command)
+                is Movement -> move(command).bind()
                 is Rotation -> rotate(command)
             }
         }
 
-        return Done.right()
+        Done
     }
 
-    private fun move(movement: Movement) {
+    private fun move(movement: Movement): Either<Failure, Done> {
         log.debug("moving ${movement::class.simpleName}")
-        when (movement) {
+        return when (movement) {
             Backwards -> moveBackwards()
             Forward -> moveForward()
         }
@@ -58,22 +66,31 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
         }
     }
 
-    private fun moveForward() {
-        position = when (direction) {
+    private fun moveForward(): Either<Failure, Done> {
+        val updatedPosition = when (direction) {
             South -> position.copy(y = wrapUnderflow(position.y, planet.yRange))
             East -> position.copy(x = wrapOverflow(position.x, planet.width))
             West -> position.copy(x = wrapUnderflow(position.x, planet.xRange))
             North -> position.copy(y = wrapOverflow(position.y, planet.height))
         }
+
+        return if (updatedPosition in obstacles) {
+            ObstacleDetected(updatedPosition).left()
+        } else {
+            position = updatedPosition
+            Done.right()
+        }
     }
 
-    private fun moveBackwards() {
+    private fun moveBackwards(): Either<Failure, Done> {
         position = when (direction) {
             South -> position.copy(y = wrapOverflow(position.y, planet.height))
             East -> position.copy(x = wrapUnderflow(position.x, planet.xRange))
             West -> position.copy(x = wrapOverflow(position.x, planet.width))
             North -> position.copy(y = wrapUnderflow(position.y, planet.yRange))
         }
+
+        return Done.right()
     }
 
     private fun wrapOverflow(axis: UInt, size: UInt) = (axis + Movement.size) % size
@@ -104,13 +121,18 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
 
     object Done
 
+    sealed class Failure {
+        data class ObstacleDetected(val position: Position) : Failure()
+    }
+
     companion object {
 
         fun create(
             x: UInt = 0u,
             y: UInt = 0u,
             direction: Direction = North,
-            planet: Planet = Planet(1u, 1u)
+            planet: Planet = Planet(1u, 1u),
+            obstacles: Obstacles = Obstacles(emptySet()),
         ): Either<CreationFailure, MarsRover> {
 
             if (x >= planet.width) {
@@ -121,7 +143,7 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
                 return Ordinate.left()
             }
 
-            return MarsRover(x, y, direction, planet).right()
+            return MarsRover(x, y, direction, planet, obstacles).right()
         }
 
         sealed class CreationFailure {
