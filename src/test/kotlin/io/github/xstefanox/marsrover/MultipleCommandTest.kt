@@ -5,6 +5,7 @@ import io.github.xstefanox.marsrover.Command.Movement.Forward
 import io.github.xstefanox.marsrover.Command.Rotation.Left
 import io.github.xstefanox.marsrover.Command.Rotation.Right
 import io.github.xstefanox.marsrover.Direction.North
+import io.github.xstefanox.marsrover.MarsRover.Done
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
@@ -17,9 +18,10 @@ class MultipleCommandTest {
     fun `empty list of commands`() {
         val marsRover = MarsRover.create(0u, 0u, North).shouldBeRight()
 
-        marsRover.execute()
+        val result = marsRover.execute()
 
         assertSoftly(marsRover) {
+            result shouldBeRight Done
             position shouldBe Position(0u, 0u)
             direction shouldBe North
         }
@@ -29,27 +31,34 @@ class MultipleCommandTest {
     fun `single command - movement`() {
         val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).shouldBeRight()
 
-        marsRover.execute(aMovement())
+        val result = marsRover.execute(aMovement())
 
-        marsRover.position shouldNotBe Position(0u, 0u)
+        assertSoftly {
+            result shouldBeRight Done
+            marsRover.position shouldNotBe Position(0u, 0u)
+        }
     }
 
     @Test
     fun `single command - rotation`() {
         val marsRover = MarsRover.create(0u, 0u, North).shouldBeRight()
 
-        marsRover.execute(aRotation())
+        val result = marsRover.execute(aRotation())
 
-        marsRover.direction shouldNotBe North
+        assertSoftly {
+            result shouldBeRight Done
+            marsRover.direction shouldNotBe North
+        }
     }
 
     @Test
     fun `mixed list of commands`() {
         val marsRover = MarsRover.create(0u, 0u, North, Planet(10u, 10u)).shouldBeRight()
 
-        marsRover.execute(aRotation(), aMovement())
+        val result = marsRover.execute(aRotation(), aMovement())
 
         assertSoftly(marsRover) {
+            result shouldBeRight Done
             marsRover.position shouldNotBe Position(0u, 0u)
             marsRover.direction shouldNotBe North
         }

@@ -6,7 +6,9 @@ import io.github.xstefanox.marsrover.Direction.East
 import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
+import io.github.xstefanox.marsrover.MarsRover.Done
 import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -20,9 +22,12 @@ class RotationTest {
     fun `right rotation`(initialDirection: Direction, expectedDirection: Direction) {
         val marsRover = MarsRover.create(0u, 0u, initialDirection).shouldBeRight()
 
-        marsRover.execute(Right)
+        val result = marsRover.execute(Right)
 
-        marsRover.direction shouldBe expectedDirection
+        assertSoftly {
+            result shouldBeRight Done
+            marsRover.direction shouldBe expectedDirection
+        }
     }
 
     @ParameterizedTest
@@ -30,9 +35,12 @@ class RotationTest {
     fun `left rotation`(initialDirection: Direction, expectedDirection: Direction) {
         val marsRover = MarsRover.create(0u, 0u, initialDirection).shouldBeRight()
 
-        marsRover.execute(Left)
+        val result = marsRover.execute(Left)
 
-        marsRover.direction shouldBe expectedDirection
+        assertSoftly {
+            result shouldBeRight Done
+            marsRover.direction shouldBe expectedDirection
+        }
     }
 
     companion object {

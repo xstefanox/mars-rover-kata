@@ -8,8 +8,10 @@ import io.github.xstefanox.marsrover.Direction.North
 import io.github.xstefanox.marsrover.Direction.South
 import io.github.xstefanox.marsrover.Direction.West
 import io.github.xstefanox.marsrover.MarsRover.Companion.CreationFailure.InvalidPosition
+import io.github.xstefanox.marsrover.MarsRover.Done
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -62,9 +64,12 @@ class PlanetTest {
                 planet = Planet.create(width = 10u, height = 1u)
             ).shouldBeRight()
 
-            marsRover.execute(movement)
+            val result = marsRover.execute(movement)
 
-            marsRover.position.x shouldBe expectedX
+            assertSoftly {
+                result shouldBeRight Done
+                marsRover.position.x shouldBe expectedX
+            }
         }
 
         @ParameterizedTest
@@ -78,9 +83,12 @@ class PlanetTest {
                 planet = Planet.create(width = 1u, height = 10u)
             ).shouldBeRight()
 
-            marsRover.execute(movement)
+            val result = marsRover.execute(movement)
 
-            marsRover.position.y shouldBe expectedY
+            assertSoftly {
+                result shouldBeRight Done
+                marsRover.position.y shouldBe expectedY
+            }
         }
     }
 

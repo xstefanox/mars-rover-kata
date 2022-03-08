@@ -31,13 +31,15 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
     var direction: Direction = direction
         private set
 
-    fun execute(vararg commands: Command) {
+    fun execute(vararg commands: Command): Either<Nothing, Done> {
         commands.forEach { command ->
             when (command) {
                 is Movement -> move(command)
                 is Rotation -> rotate(command)
             }
         }
+
+        return Done.right()
     }
 
     private fun move(movement: Movement) {
@@ -99,6 +101,8 @@ class MarsRover private constructor(x: UInt, y: UInt, direction: Direction = Nor
             East -> North
         }
     }
+
+    object Done
 
     companion object {
 

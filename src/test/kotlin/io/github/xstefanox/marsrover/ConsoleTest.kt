@@ -1,5 +1,6 @@
 package io.github.xstefanox.marsrover
 
+import arrow.core.right
 import io.github.xstefanox.marsrover.Command.Movement
 import io.github.xstefanox.marsrover.Command.Movement.Backwards
 import io.github.xstefanox.marsrover.Command.Movement.Forward
@@ -12,9 +13,7 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.assertions.assertSoftly
 import io.mockk.called
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
@@ -27,7 +26,9 @@ internal class ConsoleTest {
     private val marsRover = mockk<MarsRover> {
         every {
             execute(*anyVararg())
-        } just runs
+        } answers {
+            MarsRover.Done.right()
+        }
     }
 
     private val console = Console(marsRover)
